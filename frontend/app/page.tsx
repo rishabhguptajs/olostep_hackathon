@@ -82,7 +82,7 @@ const Home: React.FC = () => {
         <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-5xl font-extrabold mb-4">
-              Welcome to Olastep Track
+              Welcome to Olostep Track
             </h2>
             <p className="text-xl mb-8">
               Your one-stop solution for tracking and managing your projects
@@ -128,7 +128,6 @@ const Home: React.FC = () => {
                 {scrapedData.map((item, index) => {
                   let analysis = { category: "Unknown", sub_category: "Unknown" };
 
-                  // Parse the analysis string if it's a valid JSON
                   try {
                     analysis = JSON.parse(item.analysis);
                   } catch (err) {
@@ -202,11 +201,11 @@ const Home: React.FC = () => {
             <h2 className="text-3xl font-bold mb-8">What Our Users Say</h2>
             <div className="max-w-2xl mx-auto">
               <blockquote className="text-xl italic text-gray-700">
-                "Olastep Track has revolutionized how we gather and analyze web
+                "Olostep Track has revolutionized how we gather and analyze web
                 data. It's powerful, intuitive, and has greatly improved our
                 research capabilities."
               </blockquote>
-              <p className="mt-4 font-semibold">- John Smith, Data Scientist</p>
+              <p className="mt-4 font-semibold">- John Doe, Data Scientist</p>
             </div>
           </div>
         </section>
@@ -229,7 +228,7 @@ const Home: React.FC = () => {
 
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto px-4 text-center">
-          <p>&copy; 2024 Olastep Track. All rights reserved.</p>
+          <p>&copy; 2024 Olostep Track. All rights reserved.</p>
         </div>
       </footer>
     </div>
