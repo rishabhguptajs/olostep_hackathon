@@ -1,23 +1,23 @@
-"use client";
-import React, { useState } from "react";
+"use client"
+import React, { useState } from "react"
 
 interface ScrapedItem {
-  headline: string;
-  summary: string;
-  analysis: string;
+  headline: string
+  summary: string
+  analysis: string
 }
 
 const Home: React.FC = () => {
-  const [url, setUrl] = useState<string>("");
-  const [scrapedData, setScrapedData] = useState<ScrapedItem[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [url, setUrl] = useState<string>("")
+  const [scrapedData, setScrapedData] = useState<ScrapedItem[] | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-    setScrapedData(null);
+    e.preventDefault()
+    setIsLoading(true)
+    setError(null)
+    setScrapedData(null)
 
     try {
       const response = await fetch(
@@ -29,20 +29,20 @@ const Home: React.FC = () => {
           },
           body: JSON.stringify({ url }),
         }
-      );
+      )
 
       if (!response.ok) {
-        throw new Error("Failed to fetch data");
+        throw new Error("Failed to fetch data")
       }
 
-      const result = await response.json();
-      setScrapedData(result.news);
+      const result = await response.json()
+      setScrapedData(result.news)
     } catch (err) {
-      setError("An error occurred while scraping the data. Please try again.");
+      setError("An error occurred while scraping the data. Please try again.")
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -126,12 +126,15 @@ const Home: React.FC = () => {
               </h2>
               <div className="bg-white shadow overflow-hidden sm:rounded-lg">
                 {scrapedData.map((item, index) => {
-                  let analysis = { category: "Unknown", sub_category: "Unknown" };
+                  let analysis = {
+                    category: "Unknown",
+                    sub_category: "Unknown",
+                  }
 
                   try {
-                    analysis = JSON.parse(item.analysis);
+                    analysis = JSON.parse(item.analysis)
                   } catch (err) {
-                    console.error("Failed to parse analysis JSON:", err);
+                    console.error("Failed to parse analysis JSON:", err)
                   }
 
                   return (
@@ -146,10 +149,10 @@ const Home: React.FC = () => {
                         {item.summary || "No summary available"}
                       </p>
                       <p className="mt-2 text-sm text-blue-600 hover:text-blue-800">
-                        Analysis: {analysis.category} -{" "} {analysis.sub_category}
+                        Analysis: {analysis.category} - {analysis.sub_category}
                       </p>
                     </div>
-                  );
+                  )
                 })}
               </div>
             </div>
@@ -199,12 +202,20 @@ const Home: React.FC = () => {
         <section id="testimonials" className="bg-gray-100 py-16">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8">What Our Users Say</h2>
-            <div className="max-w-2xl mx-auto">
-              <blockquote className="text-xl italic text-gray-700">
-                "Olostep Track has revolutionized how we gather and analyze web
+            <div className="max-w-2xl mx-auto relative">
+              {/* Opening quotation mark */}
+              <div className="absolute -top-8 left-0 text-6xl text-yellow-500 font-bold">
+                &ldquo;
+              </div>
+              <blockquote className="text-xl italic text-gray-700 z-10 relative">
+                Olostep Track has revolutionized how we gather and analyze web
                 data. It's powerful, intuitive, and has greatly improved our
-                research capabilities."
+                research capabilities.
               </blockquote>
+              {/* Closing quotation mark */}
+              <div className="absolute -bottom-8 right-0 text-6xl text-yellow-500 font-bold">
+                &rdquo;
+              </div>
               <p className="mt-4 font-semibold">- John Doe, Data Scientist</p>
             </div>
           </div>
@@ -232,7 +243,7 @@ const Home: React.FC = () => {
         </div>
       </footer>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
