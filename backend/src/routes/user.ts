@@ -28,7 +28,7 @@ router.post('/scrape', async (req: Request, res: Response) => {
   try {
     const data = await scrapeNewsData(url);
 
-
+    res.json(data);
   } catch (error: any) {
     res.status(500).json({ error: 'Failed to scrape data' });
   }
