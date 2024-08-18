@@ -21,13 +21,10 @@ export const scrapeNewsData = async (url: string): Promise<{ url: string, news: 
         const headline = $(elem).text().trim();
 
         let summary = '';
-        $(elem).siblings().each((_, sibling) => {
-          const siblingText = $(sibling).text().trim();
-          if (siblingText) {
-            summary = siblingText;
-            return false;
-          }
-        });
+        for (const summarySelector of summarySelectors) {
+          summary = $(elem).siblings(summarySelector).first().text().trim();
+          if (summary) break;
+        }
 
         if (headline) {
           news.push({ headline, summary });
