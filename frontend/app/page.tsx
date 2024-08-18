@@ -4,7 +4,7 @@ import React, { useState } from "react";
 interface ScrapedItem {
   headline: string;
   summary: string;
-  url: string;
+  analysis: string;
 }
 
 const Home: React.FC = () => {
@@ -36,8 +36,7 @@ const Home: React.FC = () => {
       }
 
       const result = await response.json();
-      // Assuming the API response has a 'news' property containing the array
-      setScrapedData(result.news); // Adjust based on actual response structure
+      setScrapedData(result.news);
     } catch (err) {
       setError("An error occurred while scraping the data. Please try again.");
     } finally {
@@ -80,7 +79,6 @@ const Home: React.FC = () => {
       </header>
 
       <main className="flex-grow">
-        {/* Hero section */}
         <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-5xl font-extrabold mb-4">
@@ -112,7 +110,6 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Scraped Data Display */}
         {error && (
           <div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
@@ -128,32 +125,38 @@ const Home: React.FC = () => {
                 Scraped Data
               </h2>
               <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                {scrapedData.map((item, index) => (
-                  <div
-                    key={index}
-                    className="px-4 py-5 sm:px-6 border-b border-gray-200"
-                  >
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      {item.headline}
-                    </h3>
-                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                      {item.summary}
-                    </p>
-                    <a
-                      href={item.url}
-                      className="mt-2 text-sm text-blue-600 hover:text-blue-800"
-                      target="_blank"
+                {scrapedData.map((item, index) => {
+                  let analysis = { category: "Unknown", sub_category: "Unknown" };
+
+                  // Parse the analysis string if it's a valid JSON
+                  try {
+                    analysis = JSON.parse(item.analysis);
+                  } catch (err) {
+                    console.error("Failed to parse analysis JSON:", err);
+                  }
+
+                  return (
+                    <div
+                      key={index}
+                      className="px-4 py-5 sm:px-6 border-b border-gray-200"
                     >
-                      {item.url}
-                    </a>
-                  </div>
-                ))}
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        {item.headline}
+                      </h3>
+                      <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                        {item.summary || "No summary available"}
+                      </p>
+                      <p className="mt-2 text-sm text-blue-600 hover:text-blue-800">
+                        Analysis: {analysis.category} -{" "} {analysis.sub_category}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </section>
         )}
 
-        {/* Features section */}
         <section id="features" className="py-16">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">
@@ -194,7 +197,6 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Testimonial section */}
         <section id="testimonials" className="bg-gray-100 py-16">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8">What Our Users Say</h2>
@@ -209,7 +211,6 @@ const Home: React.FC = () => {
           </div>
         </section>
 
-        {/* Call to action section */}
         <section id="cta" className="bg-blue-700 text-white py-16">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-4">
@@ -226,7 +227,6 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-gray-800 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <p>&copy; 2024 Olastep Track. All rights reserved.</p>
