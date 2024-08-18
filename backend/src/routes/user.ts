@@ -36,13 +36,15 @@ router.post('/scrape', async (req: Request, res: Response) => {
 
     res.status(200).json({ url, news: analyzedNews });
   } catch (error: any) {
-    res.status(500).json({ error: 'Failed to scrape or analyze data' });
+    res.status(500).json({ 
+      message: 'Failed to scrape or analyze data',
+      error: error.message
+     });
   }
 });
 
 const analyzeWithAI = async (headline: string, summary: string, url: string): Promise<string> => {
   try {
-    console.log(process.env.OPENROUTER_API_KEY);
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
@@ -68,7 +70,7 @@ const analyzeWithAI = async (headline: string, summary: string, url: string): Pr
 
     return response.data.choices[0].message.content;
   } catch (error: any) {
-    // console.error('Error analyzing with AI:', error);
+    console.error('Error analyzing with AI:', error.message);
     return error.message;
   }
 };
